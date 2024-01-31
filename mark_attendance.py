@@ -21,7 +21,7 @@ for i in range(len(courses)):
     print(courses[i])
 
 course_index = int(input())
-course_index -= 1
+course_index = course_index- 1
 course_name_to_find = courses[course_index]
 
 #webdriver for chrome
@@ -29,6 +29,7 @@ driver = webdriver.Chrome()
 driver.get("https://timetable.iitr.ac.in:8000/#/home")
 
 # Set a maximum wait time for the elements to be available
+driver.maximize_window()
 wait = WebDriverWait(driver, 10)
 
 for cred in credentials:
@@ -65,7 +66,11 @@ for cred in credentials:
     row = wait.until(EC.presence_of_element_located((By.XPATH, row_xpath)))
 
     # Find the button in the row and click it
-    button = row.find_element(By.XPATH, './/button[@class="btn btn-primary"]')
+    button = row.find_element(By.XPATH, './td[9]/button')
+    driver.execute_script("arguments[0].scrollIntoView(true);", button)
+
+
+    # //*[@id="customers"]/tr[7]/td[9]/button
     button.click()
     
     #wait for 0.5 second
